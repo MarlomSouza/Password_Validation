@@ -43,7 +43,7 @@ public class PasswordModel{
    * @param forca the forca to set
    */
   public void setForca(int forca) {
-      this.forca = forca;
+      this.forca += forca;
   }
   /**
    * @param mensagem the mensagem to set

@@ -14,7 +14,10 @@ public final class CharHelper {
         return  value + 1;
     }
 
-    public static boolean IsCharSequence(char value, char nextValue){
-        return CharNextSequence(value) == CharToInt(nextValue);
+    public static boolean IsCharSequence(char fisrtValue, char secondValue, char thirdValue){
+        boolean primeiroMaisUmIgualSegundo = CharNextSequence(fisrtValue) == CharToInt(secondValue);
+        boolean segundoMaisUmIgualTerceiro = CharNextSequence(secondValue) == CharToInt(thirdValue);
+        boolean resultado = primeiroMaisUmIgualSegundo && segundoMaisUmIgualTerceiro;
+        return resultado;
     }
 }
