@@ -1,10 +1,9 @@
 package business;
 
-import helpers.CharHelper;
-import helpers.MensagensValidacoes;
 import java.util.regex.Pattern;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
+import helpers.CharHelper;
+import helpers.MensagensValidacoes;
 import model.PasswordModel;
 
 
@@ -14,13 +13,15 @@ public class PasswordBusiness{
     private int quantidadeCaracteresMinuscula = 0;
     private int quantidadeCaracteresEspecial = 0;
     private int quantidadeCaracteresNumerico = 0;
+    private int quantidadeCaracterNumericoOuEspecialNoMeio = 0;
     private int quantidadeCaracteresRepetido = 0;
     private int quantidadeCaracteresSequencial = 0;
-    private int quantidadeCaracteresESpecialSequencial;
-    private int quantidadeCaracteresNumericoSequencial;
-    private int quantidadeCaracterConsecutivoMaiusculo;
+    private int quantidadeCaracteresESpecialSequencial= 0;
+    private int quantidadeCaracteresNumericoSequencial= 0;
+    private int quantidadeCaracterConsecutivoMaiusculo= 0;
     private int quantidadeCaracterConsecutivoMinusculo = 0;
     private int quantidadeCaracterConsecutivoNumerico = 0;
+    private int quantidadeRequerimentoAtendido = 0;
     
 
     Pattern padraoMaiusculo = Pattern.compile("[A-Z]*");
@@ -31,6 +32,8 @@ public class PasswordBusiness{
     private String senha;
     private PasswordModel model;
 	
+	
+	
     public PasswordBusiness() {
         super();
     }
@@ -40,20 +43,33 @@ public class PasswordBusiness{
         this.senha = senha;
         model.setSenha(senha);
     
+        ExisteQuantidadeMinimaDeCaracter();
+        ExisteCaracterMaiusculo();
+        ExisteCaracterMinusculo();
+        ExisteCaracterNumerico();
+        ExisteCaracterEspecial();
+        ExisteCaracterRepetido();
+        ExisteCaracterSequencial();
+        ExisteCaracterConsecutivo();
+        
+        CalcularTaxaQuantidadeCaracter();
+        CalcularTaxaCaracterMaiusculo();
+        CalcularTaxaCaracterMinusculo();
+        CalcularTaxaCaracterEspecial();
+        CalcularTaxaCaracterNumerico();
+        CalcularTaxaCaracterSequencial();
+        CalcularTaxaCaracterNumericoSequencial();
+        CalcularTaxaCaracterEspecialSequencial();
+        CalcularTaxaCaracterMaiusculoConsecutivo();
+        CalcularTaxaCaracterMinusculoConsecutivo();
+        CalcularTaxaCaracterNumericoConsecutivo();
+        CalcularTodasRequerimentosAtendidos();
+        return model;
+    }
+    public void ExisteQuantidadeMinimaDeCaracter(){
         if(model.getSenha().length() < quantidadeCaracterMinima)
             model.setMensagem(MensagensValidacoes.quantidadeMinimaCaracteres);
-        else{
-            ExisteCaracterMaiusculo();
-            ExisteCaracterMinusculo();
-            ExisteCaracterEspecial();
-            ExisteCaracterNumerico();
-            ExisteCaracterRepetido();
-            ExisteCaracterSequencial();
-            ExisteCaracterConsecutivo();
 
-        }
-        
-        return model;
     }
 
     public void ExisteCaracterMaiusculo() {
@@ -104,6 +120,16 @@ public class PasswordBusiness{
             model.setMensagem(MensagensValidacoes.quantidadeMinimaCaracterNumerico);
     }
 
+    public void ExisteCaracterNumericoOuEspecialNoMeio(){
+        quantidadeCaracterNumericoOuEspecialNoMeio = 0;
+        for (int i = 1; i < senha.length()-1; i++) {
+            Boolean caracterNumerico = padraoNumerico.matcher(CharHelper.CharToSring(senha.charAt(i)) ).matches();
+            Boolean caracterEspecial = padraoNumerico.matcher(CharHelper.CharToSring(senha.charAt(i)) ).matches();
+            if(caracterNumerico||caracterEspecial )
+            quantidadeCaracterNumericoOuEspecialNoMeio++;
+        }
+    }
+
     public void ExisteCaracterRepetido() {
        quantidadeCaracteresRepetido = 0;
 
@@ -119,6 +145,8 @@ public class PasswordBusiness{
         }
         if(quantidadeCaracteresRepetido > 0)
             model.setMensagem(MensagensValidacoes.ExisteCaracterRepetido);
+
+        CalcularTaxaCaracterRepetido();
     }
 
     public void ExisteCaracterSequencial() {
@@ -174,12 +202,16 @@ public class PasswordBusiness{
             model.setMensagem(MensagensValidacoes.ExisteCaracterMinusculosConsecutivos);
         if(quantidadeCaracterConsecutivoNumerico > 0)
             model.setMensagem(MensagensValidacoes.ExisteCaracterNumericosConsecutivos);
-
     }
 
     public void CalcularTaxaCaracterMaiusculo(){
         int taxaMaiusculo = 2;
         model.setForca ((model.getSenha().length() - quantidadeCaracteresMaisculos) * taxaMaiusculo);
+    }
+
+    public void CalcularTaxaQuantidadeCaracter(){
+        int taxaQuantidadeCaracter = 4;
+        model.setForca(model.getSenha().length() * taxaQuantidadeCaracter);
     }
 
     public void CalcularTaxaCaracterMinusculo(){
@@ -226,5 +258,25 @@ public class PasswordBusiness{
     public void CalcularTaxaCaracterSequencial() {
         int taxaCaracterSequencial = 3;
         model.setForca(-quantidadeCaracteresESpecialSequencial * taxaCaracterSequencial) ;
+    }
+
+    public void CalcularTodasRequerimentosAtendidos(){
+        quantidadeRequerimentoAtendido =0;
+        int taxaRequerimentoAtendido = 2;
+
+        if(quantidadeCaracterMinima > 0)
+            quantidadeRequerimentoAtendido++;
+        if(quantidadeCaracteresMaisculos > 0)
+            quantidadeRequerimentoAtendido++;
+        if(quantidadeCaracteresMinuscula > 0)
+            quantidadeRequerimentoAtendido++;
+        if(quantidadeCaracteresNumerico > 0)
+            quantidadeRequerimentoAtendido++;
+        if(quantidadeCaracteresEspecial > 0)
+            quantidadeRequerimentoAtendido++;
+        
+        
+        model.setForca(quantidadeRequerimentoAtendido * taxaRequerimentoAtendido) ;
+
     }
 }

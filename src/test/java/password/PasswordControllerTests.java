@@ -114,6 +114,16 @@ public class PasswordControllerTests {
     }
 
 
+    @Test
+    public void caracterNumericSequencePower() throws Exception {
+        mensagensEsperada = new ArrayList<String>();
+        mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericoSequencial);    
+        mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericosConsecutivos);
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "AgCdXf123."))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mensagens").value(mensagensEsperada));
+    }
+
 
 
 
