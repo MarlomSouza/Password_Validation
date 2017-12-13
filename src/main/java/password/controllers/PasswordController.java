@@ -20,7 +20,7 @@ public class PasswordController {
     }
 
     @RequestMapping("/passwordvalidation")
-    public PasswordModel PasswordValidation(@RequestParam(value="senha", defaultValue="") String senha) {
+    public PasswordModel PasswordValidation(@RequestParam(name="senha", defaultValue="") String senha) {
         passwordBusiness = new PasswordBusiness();
         return passwordBusiness.ValidaSenha(senha);
     }

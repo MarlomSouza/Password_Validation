@@ -53,7 +53,14 @@ public class PasswordControllerTests {
     public void noUpperCaseLetter() throws Exception {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "senha.123"))
                     .andDo(print()).andExpect(status().isOk())
-                    .andExpect(jsonPath("$.mensagens").value("É necessario possuir uma letra maiuscula."));
+                    .andExpect(jsonPath("$.mensagens").value("eh necessario possuir uma letra maiuscula."));
+    }
+
+    @Test
+    public void noLowerCaseLetter() throws Exception {
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SENHA.123"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mensagens").value("eh necessario possuir uma letra minuscula."));
     }
 
     // @Test
