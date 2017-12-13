@@ -43,9 +43,15 @@ public class PasswordControllerTests {
 
     @Test
     public void noParameterShouldReturnMessageNoPasswordInformed() throws Exception {
+        mensagensEsperada = new ArrayList<String>();
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracteres);
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterMaisculo);
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterMinusculo );   
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterNumerico );   
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterEspecial);   
         this.mockMvc.perform(get ("/api/passwordvalidation"))
                     .andDo(print()).andExpect(status().isOk())
-                    .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.quantidadeMinimaCaracteres));
+                    .andExpect(jsonPath("$.mensagens").value(mensagensEsperada));
     }
     @Test
     public void shouldReturnPasswordInformed() throws Exception {
@@ -87,8 +93,8 @@ public class PasswordControllerTests {
     @Test
     public void NoNumberAndSymbols() throws Exception {
         mensagensEsperada = new ArrayList<String>();
-        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterEspecial);    
         mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterNumerico);
+        mensagensEsperada.add(MensagensValidacoes.quantidadeMinimaCaracterEspecial);    
             
 
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNhAbDj"))
