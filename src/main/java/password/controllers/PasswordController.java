@@ -1,5 +1,7 @@
 package password.controllers;
 
+import java.security.KeyStore.TrustedCertificateEntry;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,11 +17,11 @@ public class PasswordController {
 
     public PasswordController() {
         super();
-        passwordBusiness = new PasswordBusiness();
     }
 
     @RequestMapping("/passwordvalidation")
-    public PasswordModel PasswordValidation(@RequestParam(value="senha") String senha) {
+    public PasswordModel PasswordValidation(@RequestParam(value="senha", defaultValue="") String senha) {
+        passwordBusiness = new PasswordBusiness();
         return passwordBusiness.ValidaSenha(senha);
     }
 }

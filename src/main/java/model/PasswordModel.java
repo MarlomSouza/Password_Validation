@@ -6,12 +6,12 @@ import java.util.List;
 public class PasswordModel{
 
     private String senha;
-    private List<String> mensagem;
+    private List<String> mensagens;
     private int forca;
 
     public PasswordModel() {
         super();
-        mensagem = new ArrayList<String>();
+        this.mensagens = new ArrayList<String>();
     }
 
   /**
@@ -36,8 +36,8 @@ public class PasswordModel{
   /**
    * @return the mensagem
    */
-  public List<String> getMensagem() {
-      return mensagem;
+  public List<String> getMensagens() {
+      return this.mensagens;
   }
   /**
    * @param forca the forca to set
@@ -49,7 +49,7 @@ public class PasswordModel{
    * @param mensagem the mensagem to set
    */
   public void setMensagem(String mensagem) {
-      this.mensagem.add(mensagem);
+      this.mensagens.add(mensagem);
   }
 
 

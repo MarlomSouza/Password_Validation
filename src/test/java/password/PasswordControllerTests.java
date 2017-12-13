@@ -28,8 +28,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import Helpers.MensagensValidacoes;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,9 +37,23 @@ public class PasswordControllerTests {
     private MockMvc mockMvc;
 
     @Test
-    public void noParameterShouldReturnMessageNoPasswordInfornd() throws Exception {
-        this.mockMvc.perform(get ("/api/passwordvalidation")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.mensagem").value(MensagensValidacoes.quantidadeMinimaCaracteres));
+    public void noParameterShouldReturnMessageNoPasswordInformed() throws Exception {
+        this.mockMvc.perform(get ("/api/passwordvalidation"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mensagens").value("Quantidade minima de 8 caracteres"));
+    }
+    @Test
+    public void shouldReturnPasswordInformed() throws Exception {
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "senha.123"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.senha").value("senha.123"));
+    }
+
+    @Test
+    public void noUpperCaseLetter() throws Exception {
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "senha.123"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mensagens").value("É necessario possuir uma letra maiuscula."));
     }
 
     // @Test
