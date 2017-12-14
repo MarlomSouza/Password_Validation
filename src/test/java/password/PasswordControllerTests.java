@@ -150,4 +150,13 @@ public class PasswordControllerTests {
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.forca").value("95"));
     }
+
+    @Test
+    public void onlyNumbers() throws Exception {
+        
+        
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "26615191"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("18"));
+    }
 }

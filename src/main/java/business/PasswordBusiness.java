@@ -141,10 +141,9 @@ public class PasswordBusiness{
 
         for (int i = 0; i < senha.length(); i++) {
             for (int j = i; j < senha.length(); j++) {
-                if(i == j)
-                    continue;
+                
 
-                if(senha.charAt(i) == senha.charAt(j)) {
+                if(senha.charAt(i) == senha.charAt(j) &&  i != j) {
                     quantidadeCaracteresRepetido++;
                 }
             }
@@ -227,6 +226,7 @@ public class PasswordBusiness{
 
     private void CalcularTaxaCaracterNumerico(){
         int taxaNumerico = 4;
+        if(quantidadeCaracteresMaiusculos > 0||quantidadeCaracteresMinusculo > 0||quantidadeCaracteresEspecial >0)
         model.setForca(quantidadeCaracteresNumerico * taxaNumerico);
     }
 

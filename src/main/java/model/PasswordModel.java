@@ -8,6 +8,7 @@ public class PasswordModel{
     private String senha;
     private List<String> mensagens;
     private int forca;
+    private String complexidade;
 
     public PasswordModel() {
         super();
@@ -31,7 +32,12 @@ public class PasswordModel{
    * @return the forca
    */
   public int getForca() {
-      return forca;
+        if(forca <= 0)
+            return 0;
+        else if(forca >= 100)
+            return 100;
+        else
+            return forca;
   }
   /**
    * @return the mensagem
@@ -52,5 +58,21 @@ public class PasswordModel{
       this.mensagens.add(mensagem);
   }
 
+  /**
+   * @return the complexidade
+   */
+  public String getComplexidade() {
+    
+    if (this.forca < 20) 
+        return "Muito Fraca!";
+    else if (this.forca < 40)
+        return "Fraca!";
+    else if (this.forca < 60)
+        return "Boa!";
+    else if (this.forca < 80)
+        return "Forte!";
+    else
+        return "Muito Forte!";
+  }
 
 }

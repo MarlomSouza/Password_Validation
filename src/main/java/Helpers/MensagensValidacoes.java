@@ -2,16 +2,16 @@ package helpers;
 
 public final class MensagensValidacoes{
     public static String quantidadeMinimaCaracteres = "Quantidade minima de 8 caracteres";
-    public static String quantidadeMinimaCaracterMaisculo = "eh necessario possuir uma letra maiuscula.";
-    public static String quantidadeMinimaCaracterMinusculo = "eh necessario possuir uma letra minuscula.";
-    public static String quantidadeMinimaCaracterEspecial = "eh necessario possuir um caracter Especial.";
-    public static String quantidadeMinimaCaracterNumerico = "eh necessario possuir um caracter Numerico.";
+    public static String quantidadeMinimaCaracterMaisculo = "Utilizar um caracter maíscula.";
+    public static String quantidadeMinimaCaracterMinusculo = "Utilizar um caracter minuscula.";
+    public static String quantidadeMinimaCaracterEspecial = "Utilizar um caracter especial.";
+    public static String quantidadeMinimaCaracterNumerico = "Utilizar um número pode deixar mais seguro.";
     public static String quantidadeMinimaCaracterNumericoOuEspecialNoMeio = "Existe Caracter numerico ou especial no meio";
-    public static String ExisteCaracterRepetido = "Existe Caracter Repetido.";
-    public static String ExisteCaracterNumericoSequencial = "Existe Caracter númerico sequencial.";
-    public static String ExisteCaracterEspecialSequencial = "Existe Caracter special sequencial.";
-    public static String ExisteCaracterSequencial = "Existe Caracter sequencial.";
-    public static String ExisteCaracterMaiusculoConsecutivos = "Existe caracters maisculos consecutivos";
-    public static String ExisteCaracterMinusculosConsecutivos = "Existe caracters minusculos consecutivos";
-    public static String ExisteCaracterNumericosConsecutivos = "Existe caracters numericos consecutivos";
+    public static String ExisteCaracterRepetido = "Verifica por letra ou números repetidos.";
+    public static String ExisteCaracterNumericoSequencial = "Verifique números sequenciais.";
+    public static String ExisteCaracterEspecialSequencial = "Verifique simbolos sequenciais.";
+    public static String ExisteCaracterSequencial = "Verifique letras sequenciais.";
+    public static String ExisteCaracterMaiusculoConsecutivos = "Verifique letras maiuscula consecutivos.";
+    public static String ExisteCaracterMinusculosConsecutivos = "Verifique letras minúsculas consecutivos.";
+    public static String ExisteCaracterNumericosConsecutivos = "Verifique números consecutivos";
 }
