@@ -59,6 +59,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "senha.123"))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.senha").value("senha.123"));
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "senha.123"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("61"));
+
     }
 
     @Test
@@ -66,6 +70,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "s1e2n3h."))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.quantidadeMinimaCaracterMaisculo));
+
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "s1e2n3h."))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("72"));
     }
 
     @Test
@@ -73,6 +81,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "S1E2N3H."))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.quantidadeMinimaCaracterMinusculo));
+
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "S1E2N3H."))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("72"));
     }
 
     
@@ -81,6 +93,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNaPiUhK."))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.quantidadeMinimaCaracterNumerico));
+
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNaPiUhK."))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("76"));
     }
 
     @Test
@@ -88,6 +104,9 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNaPiUhK3"))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.quantidadeMinimaCaracterEspecial));
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNaPiUhK3"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("74"));
     }
 
     @Test
@@ -100,6 +119,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNhAbDj"))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(mensagensEsperada));
+        
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SeNhAbDj"))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("40"));
     }
 
     @Test
@@ -107,6 +130,10 @@ public class PasswordControllerTests {
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "AbCdXf1."))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(MensagensValidacoes.ExisteCaracterSequencial));
+
+        this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "AbCdXf1."))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.forca").value("68"));
     }
 
     @Test
@@ -114,49 +141,13 @@ public class PasswordControllerTests {
         mensagensEsperada = new ArrayList<String>();
         mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericoSequencial);    
         mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericosConsecutivos);
+        
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "AgCdXf123."))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(jsonPath("$.mensagens").value(mensagensEsperada));
-    }
 
-
-    @Test
-    public void caracterNumericSequencePower() throws Exception {
-        mensagensEsperada = new ArrayList<String>();
-        mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericoSequencial);    
-        mensagensEsperada.add(MensagensValidacoes.ExisteCaracterNumericosConsecutivos);
         this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "AgCdXf123."))
                     .andDo(print()).andExpect(status().isOk())
-                    .andExpect(jsonPath("$.mensagens").value(mensagensEsperada));
+                    .andExpect(jsonPath("$.forca").value("95"));
     }
-
-
-
-
-
-
-
-
-    // @Test
-    // public void noLowerCaseLetter() throws Exception {
-    //     this.mockMvc.perform(get("/api/passwordvalidation").param("senha", "SENHA.123"))
-    //                 .andDo(print()).andExpect(status().isOk())
-    //                 .andExpect(jsonPath("$.mensagens").value("eh necessario possuir uma letra minuscula."));
-    // }
-
-    // @Test
-    // public void noLowerCaseLetter() throws Exception {
-    //     this.mockMvc.perform(.)
-    //                 .andDo(print()).andExpect(status().isOk())
-    //                 .andExpect(jsonPath("$.mensagens").value("eh necessario possuir uma letra minuscula."));
-    // }
-
-    // @Test
-    // public void paramGreetingShouldReturnTailoredMessage() throws Exception {
-
-    //     this.mockMvc.perform(get("/").param("name", "Spring Community"))
-    //             .andDo(print()).andExpect(status().isOk())
-    //             .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
-    // }
-
 }
